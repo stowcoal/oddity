@@ -36,7 +36,7 @@ api.parseGames = function(dom) {
     else if ($(this).has('tbody').length > 0){
       var line = {};
       line.book = $(this).children('td').first().text();
-      if (line.book === 'Wynn') {
+      if (line.book === process.env.BOOK) {
         $(this).find('tbody td').first().each(function(i, elem) {
           line.spread = Number($(this).html().split('<br>')[0]);
         });
