@@ -3,14 +3,12 @@ var moment = require('moment-timezone');
 var extractValues = require('extract-values');
 var request = require('request');
 var gameController = require('../controllers/game');
-var fs = require('fs');
 
 var api = {};
 
 api.exec = function() {
-  //request('http://www.espn.com/college-football/lines', function(err, res, body) {
-  return new Promise(function(resolve, reject){
-    fs.readFile('./tests/lines.html', function(err, body){
+  return new Promise(function(resolve, reject) {
+    request('http://www.espn.com/college-football/lines', function(err, res, body) {
       var games = api.parseGames(body);
       Promise.all(games.map(function(game){
         return new Promise(function(resolve, reject){
