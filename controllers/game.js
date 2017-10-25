@@ -8,19 +8,16 @@ api.getGames = function(cb) {
   });
 };
 
-api.upsertGame = function(game, cb) {
-  Game.findOne({home: game.home, away: game.away, start: game.start}, function(err, data) {
-    if (err) {
-      cb(err);
-    }
-    if (!data) {
-      data = new Game(game);
-    } else {
-      data.lines = data.lines.concat(game.lines);
-    }
-    data.save(function(err){
-      return cb(err, game);
-    });
+api.insertGame = function(game, cb) {
+  data = new Game(game);
+  data.save(function(err){
+    return cb(err, game);
+  });
+};
+
+api.deleteFuture = function(cb) {
+  Game.remove({start: {$gt: Date.now()} }, function(err) {
+    return cb(err);
   });
 };
 
