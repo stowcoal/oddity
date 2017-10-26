@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import GameChart from './GameChart.js';
 import GameTitle from './GameTitle.js';
 

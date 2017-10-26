@@ -15,6 +15,7 @@ api.exec = function() {
           return new Promise(function(resolve, reject) {
             request('http://www.oddsshark.com/ncaaf/odds/line-history/' + gameId, function(err, res, body) {
               var game = api.parseGame(body);
+              game._id = gameId;
               if (game.lines.length){
                 gameController.insertGame(game, function(err, game){
                   resolve(game);

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {Line} from 'react-chartjs-2';
 
 const GameChart = function(props) {
@@ -33,7 +33,8 @@ const GameChart = function(props) {
       }],
       yAxes: [{
         ticks: {
-          stepSize: .5
+          suggestedMin: 0,
+          suggestedMax: 0
         }
       }]
     }

@@ -1,6 +1,9 @@
 var mongoose = require('mongoose');
 
 var gameSchema = new mongoose.Schema({
+  _id: {
+    type: String
+  },
   home: {
     type: String
   },
