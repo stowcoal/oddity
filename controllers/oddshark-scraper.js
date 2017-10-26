@@ -49,12 +49,20 @@ api.parseGame = function(dom) {
   game = api.parseTitle(title);
   game.start = moment($('.lh-event-date').text(), 'ddd, MMMM DD, h:mm A').toDate();
   game.lines = [];
+  var length = $('.base-table').has('a:contains("Wynn")').find('tbody > tr').length;
   $('.base-table').has('a:contains("Wynn")').find('tbody > tr').each(function(i, elem) {
     var line = {};
     line.timestamp = moment($(this).find('td').eq(0).text(), 'M/D/YY h:mm:ss A').toDate();
     line.spread = Number($(this).find('td > .left').eq(0).text());
     line.overunder = Number($(this).find('td > .left').eq(1).text());
     game.lines.push(line);
+    if (i === length - 1) {
+      var current = {};
+      current.timestamp = new Date(Date.now());
+      current.spread = line.spread;
+      current.overunder = line.overunder;
+      game.lines.push(current);
+    }
   });
   return game;
 };

@@ -23,14 +23,11 @@ const GameChart = function(props) {
       xAxes: [{
         type: 'time',
         bounds: 'data',
-        ticks: {
-          source: 'data'
-        },
         time: {
           tooltipFormat: 'dddd MMM D h:mm A',
           unit: 'day',
           displayFormats: {
-            day: ' '
+            day: 'MMM D'
           }
         }
       }],

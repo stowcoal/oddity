@@ -7,7 +7,7 @@ class Games extends Component {
   }
 
   componentDidMount() {
-    fetch('/games')
+    fetch((process.env.NODE_ENV === 'production' ? process.env.REACT_APP_ODDITY_API : '') + '/games')
       .then(res => res.json())
       .then(games => this.setState({games}));
   }
@@ -17,19 +17,17 @@ class Games extends Component {
       <div>
         <h1>Games</h1>
         <div className="container">
-        <div className="card-columns">
+          <div className="row">
             {this.state.games.map(function(game) {
                 return (
-                  <div className="card">
-                  <div className="card-body" key={game._id}>
+                  <div className="col-md-4" key={game._id}>
                     <Game game={game} />
-                  </div>
                   </div>
                 );
             })
           }
+          </div>
         </div>
-      </div>
       </div>
     )
   }
