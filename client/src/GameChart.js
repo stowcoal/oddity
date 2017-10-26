@@ -6,7 +6,7 @@ const GameChart = function(props) {
     datasets: [
       {
         fill: false,
-        borderColor: 'rgb(200, 197, 28)',
+        borderColor: 'rgb(64, 65, 71)',
         lineTension: 0,
         label: 'Spread',
         data: props.game.lines.map(line => (

@@ -20,7 +20,7 @@ class Games extends Component {
           <div className="row">
             {this.state.games.map(function(game) {
                 return (
-                  <div className="col-md-4" key={game._id}>
+                  <div className="col-md-6" key={game._id}>
                     <Game game={game} />
                   </div>
                 );
