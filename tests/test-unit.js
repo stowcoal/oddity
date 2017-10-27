@@ -38,7 +38,32 @@ describe('dom parser', function() {
         { timestamp: new Date("2017-10-23T15:08:46.000"), spread: 25.5, overunder: 0 },
         { timestamp: game.lines[game.lines.length-1].timestamp, spread: 25.5, overunder: 0 }
       ];
-      console.log(game);
+      for (var index = 0; index < lines.length; ++index) {
+        expect(game.lines[index].spread).to.equal(lines[index].spread);
+        expect(game.lines[index].overunder).to.equal(lines[index].overunder);
+        expect(game.lines[index].timestamp.getTime()).to.equal(lines[index].timestamp.getTime());
+      }
+
+      done();
+    });
+  });it('should return nw game info', function(done) {
+    var filePath = path.join(__dirname, '/line-nw.html');
+    fs.readFile(filePath, function(err, data){
+      var game = scraper.parseGame(data);
+      expect(game.home).to.equal('Northwestern Wildcats');
+      expect(game.away).to.equal('Michigan State Spartans');
+      expect(game.start.getTime()).to.equal(new Date('10/28/2017 3:30 PM').getTime());
+      var lines = [
+        { timestamp: new Date("2017-10-22T23:02:15.000"), spread: 0, overunder: 0 },
+        { timestamp: new Date("2017-10-22T23:09:31.000"), spread: 1, overunder: 0 },
+        { timestamp: new Date("2017-10-22T23:54:36.000"), spread: 1.5, overunder: 0 },
+        { timestamp: new Date("2017-10-23T00:24:48.000"), spread: 2, overunder: 0 },
+        { timestamp: new Date("2017-10-23T19:23:39.000"), spread: 1, overunder: 0 },
+        { timestamp: new Date("2017-10-23T21:23:06.000"), spread: 1.5, overunder: 0 },
+        { timestamp: new Date("2017-10-24T21:34:51.000"), spread: 2, overunder: 0 },
+        { timestamp: new Date("2017-10-25T17:07:51.000"), spread: 2.5, overunder: 0 },
+        { timestamp: game.lines[game.lines.length-1].timestamp, spread: 2.5, overunder: 0 }
+      ];
       for (var index = 0; index < lines.length; ++index) {
         expect(game.lines[index].spread).to.equal(lines[index].spread);
         expect(game.lines[index].overunder).to.equal(lines[index].overunder);

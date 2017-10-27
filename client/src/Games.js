@@ -25,25 +25,22 @@ class Games extends Component {
   render() {
     return (
       <div>
-        <h1>Games</h1>
-        <div className="container">
-          <nav className="navbar navbar-light navbar-expand bg-light justify-content-between">
-            <ul className="navbar-nav float-right">
-              <GridButton columns="1" onClick={this.updateColumns}/>
-              <GridButton columns="2" onClick={this.updateColumns}/>
-              <GridButton columns="4" onClick={this.updateColumns}/>
-            </ul>
-          </nav>
-          <div className="row">
-            {this.state.games.map(function(game) {
-                return (
-                  <div className={'col-md-' + (12 / this.state.columns)} key={game._id}>
-                    <Game game={game} />
-                  </div>
-                );
-            }, this)
-          }
-          </div>
+        <nav className="navbar navbar-light navbar-expand bg-light justify-content-between">
+          <ul className="navbar-nav float-right">
+            <GridButton columns="1" onClick={this.updateColumns}/>
+            <GridButton columns="2" onClick={this.updateColumns}/>
+            <GridButton columns="4" onClick={this.updateColumns}/>
+          </ul>
+        </nav>
+        <div className="row">
+          {this.state.games.map(function(game) {
+              return (
+                <div className={'col-md-' + (12 / this.state.columns)} key={game._id}>
+                  <Game game={game} />
+                </div>
+              );
+          }, this)
+        }
         </div>
       </div>
     )

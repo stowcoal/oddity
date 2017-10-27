@@ -3,22 +3,22 @@ import {Line} from 'react-chartjs-2';
 
 var default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC'];
 
-const GameChart = function(props) {
+const CompareChart = function(props) {
   const data = {
-    datasets: [
+    datasets: props.games.map((game, index) => (
       {
         fill: false,
-        borderColor: default_colors[Math.floor(Math.random() * 19)],
         lineTension: 0,
-        label: 'Spread',
-        data: props.game.lines.map(line => (
+        borderColor: default_colors[index % 20],
+        label: game.away + ' @ ' + game.home,
+        data: game.lines.map(line => (
           {
             t: line.timestamp,
             y: line.spread
           }
         ))
       }
-    ]
+    ))
   };
   var options = {
     scales: {
@@ -37,9 +37,12 @@ const GameChart = function(props) {
         ticks: {
         }
       }]
+    },
+    legend: {
+      position: 'bottom'
     }
   };
-  return <Line data={data} options={options} />;
+  return <Line data={data} options={options} height={250}/>;
 }
 
-export default GameChart;
+export default CompareChart;

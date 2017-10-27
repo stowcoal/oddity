@@ -54,7 +54,11 @@ api.parseGame = function(dom) {
   $('.base-table').has('a:contains("Wynn")').find('tbody > tr').each(function(i, elem) {
     var line = {};
     line.timestamp = moment($(this).find('td').eq(0).text(), 'M/D/YY h:mm:ss A').toDate();
-    line.spread = Number($(this).find('td > .left').eq(0).text());
+    if (line.timestamp.getFullYear() < (new Date(Date.now()).getFullYear() - 1))
+      return true;
+    var spreadString = $(this).find('td > .left').eq(0).text();
+    spreadString = spreadString.replace('Ev', '0');
+    line.spread = Number(spreadString);
     line.overunder = Number($(this).find('td > .left').eq(1).text());
     game.lines.push(line);
     if (i === length - 1) {
