@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/games', function(req, res, next) {
-  gameController.getGames(function(err, data){
+  gameController.getCurrentGames(function(err, data){
     res.json(data);
   });
 });
