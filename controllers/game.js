@@ -1,10 +1,24 @@
 var Game = require('../models/game');
+var moment = require('moment');
 
 var api = {};
 
-api.getGames = function(cb) {
+api.getCurrentGames = function(cb) {
   Game.find({start: {$gt: Date.now()}}, function(err, data) {
-    return cb(data);
+    return cb(err, data);
+  });
+};
+
+api.getGames = function(cb) {
+  Game.find({}, function(err, data) {
+    return cb(err, data);
+  });
+};
+
+api.getGamesByWeek = function(week, cb) {
+  Game.find({start: {$gt: moment(Date.now()).week(35 + Number(week)).startOf('week'), $lt: moment().week(35 + Number(week)).endOf('week')}}, function(err, data) {
+    console.log(data);
+    return cb(err, data);
   });
 };
 
@@ -20,5 +34,7 @@ api.deleteFuture = function(cb) {
     return cb(err);
   });
 };
+
+
 
 module.exports = api;

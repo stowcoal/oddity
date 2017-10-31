@@ -7,13 +7,18 @@ class Games extends Component {
     super(props);
     this.state = {
       games: [],
-      columns: 4
+      columns: 3
     }
     this.updateColumns = this.updateColumns.bind(this);
   }
 
   componentDidMount() {
-    fetch((process.env.NODE_ENV === 'production' ? process.env.REACT_APP_ODDITY_API : '') + '/games')
+    var url = (process.env.NODE_ENV === 'production' ? process.env.REACT_APP_ODDITY_API : '') + '/games';
+
+    if (this.props.week) {
+      url = url + '/' + this.props.week;
+    }
+    fetch(url)
       .then(res => res.json())
       .then(games => this.setState({games}));
   }
@@ -25,13 +30,13 @@ class Games extends Component {
   render() {
     return (
       <div>
-        <nav className="navbar navbar-light navbar-expand bg-light justify-content-between">
+        {false && <nav className="navbar navbar-light navbar-expand bg-light justify-content-between">
           <ul className="navbar-nav float-right">
             <GridButton columns="1" onClick={this.updateColumns}/>
             <GridButton columns="2" onClick={this.updateColumns}/>
             <GridButton columns="4" onClick={this.updateColumns}/>
           </ul>
-        </nav>
+        </nav>}
         <div className="row">
           {this.state.games.map(function(game) {
               return (

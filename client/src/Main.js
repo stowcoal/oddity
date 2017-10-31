@@ -10,6 +10,7 @@ const Main = function() {
     <main>
       <Switch>
         <Route exact path='/' component={Home}/>
+        <Route path='/games/week/:week' component={ListGames}/>
         <Route path='/games' component={ListGames}/>
         <Route path='/compare' component={CompareGames}/>
       </Switch>

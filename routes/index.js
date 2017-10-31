@@ -8,7 +8,13 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/games', function(req, res, next) {
-  gameController.getGames(function(data){
+  gameController.getGames(function(err, data){
+    res.json(data);
+  });
+});
+
+router.get('/games/:week', function(req, res, next) {
+  gameController.getGamesByWeek(req.params.week, function(err, data){
     res.json(data);
   });
 });

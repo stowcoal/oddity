@@ -4,6 +4,7 @@ var gameController = require('../controllers/game');
 var Game = require('../models/game');
 var fs = require('fs');
 var path = require('path');
+var moment = require('moment');
 var games = [];
 
 describe('dom parser', function() {
@@ -76,21 +77,22 @@ describe('dom parser', function() {
 })
 
 describe('games', function() {
-
-  /*it('should return array of json', function(done) {
-    var filePath = path.join(__dirname, '/lines.html');
-    fs.readFile(filePath, function(err, data){
-      games = scraper.parseGames(data);
-      games.forEach(function(game){
-        expect(game.lines[0].book).to.equal('Wynn');
-      });
-      done();
-    });
-  });
-
+  var game = {
+    _id: '1',
+    home: 'Test Team One',
+    away: 'Test Team Two',
+    start: new Date(Date.now()),
+    lines: [
+      {
+        book: 'Wynn',
+        spread: '7',
+        timestamp: new Date(Date.now())
+      }
+    ]
+  };
   it('should add a game', function(done) {
-    var game = games[0];
-    gameController.upsertGame(game, function(err) {
+    gameController.insertGame(game, function(err) {
+      console.log(err);
       Game.findOne({home: game.home, away: game.away, start: game.start}, function(err, data){
         expect(data.home).to.equal(game.home);
         expect(data.away).to.equal(game.away);
@@ -102,24 +104,29 @@ describe('games', function() {
       });
     });
   });
-  it('should add a line', function(done) {
-    var game = games[0];
-    gameController.upsertGame(game, function(err) {
+  it ('should delete test game', function(done) {
+    Game.remove({home: game.home, away: game.away}, function(err) {
       Game.findOne({home: game.home, away: game.away, start: game.start}, function(err, data){
-        expect(data.lines.length).to.equal(2);
+        expect(data).to.equal(null);
         done();
       });
     });
   });
-  describe('clean up', function(){
-    it ('should delete test game', function(done) {
-    var game = games[0];
-      Game.remove({home: game.home, away: game.away}, function(err) {
-        Game.findOne({home: game.home, away: game.away, start: game.start}, function(err, data){
-          expect(data).to.equal(null);
-          done();
-        });
+  it('should get this weeks games', function(done) {
+    gameController.getCurrentGames(function(err, data){
+      data.forEach(function(game) {
+        expect(game.start.getTime()).to.be.above(Date.now());
       });
+      done();
     });
-  });*/
+  });
+  it('should get previous weeks games', function(done) {
+    gameController.getGamesByWeek(7, function(err, data){
+      data.forEach(function(game) {
+        expect(game.start.getTime()).to.be.above(new Date('10/23/2017').getTime());
+        expect(game.start.getTime()).to.be.below(new Date('10/29/2017').getTime());
+      });
+      done();
+    });
+  });
 });
