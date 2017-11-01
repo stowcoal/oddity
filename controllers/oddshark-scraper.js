@@ -3,35 +3,75 @@ var moment = require('moment-timezone');
 var extractValues = require('extract-values');
 var request = require('request');
 var gameController = require('../controllers/game');
+var fs = require('fs');
+var path = require('path');
 
 var api = {};
 
-api.exec = function() {
+api.scrapeOdds = function() {
   return new Promise(function(resolve, reject) {
-    gameController.deleteFuture(function() {
-      request('http://www.oddsshark.com/ncaaf/odds', function(err, res, body) {
-        var gameIds = api.parseGames(body);
-        Promise.all(gameIds.map(function(gameId){
-          return new Promise(function(resolve, reject) {
-            request('http://www.oddsshark.com/ncaaf/odds/line-history/' + gameId, function(err, res, body) {
-              var game = api.parseGame(body);
-              game._id = gameId;
-              if (game.lines.length){
-                gameController.insertGame(game, function(err, game){
-                  resolve(game);
-                });
-              }
-              else {
-                resolve();
-              }
-            });
+    request('http://www.oddsshark.com/ncaaf/odds', function(err, res, body) {
+      var gameIds = api.parseGames(body);
+      Promise.all(gameIds.map(function(gameId){
+        return new Promise(function(resolve, reject) {
+          request('http://www.oddsshark.com/ncaaf/odds/line-history/' + gameId, function(err, res, body) {
+            var game = api.parseGame(body);
+            game._id = gameId;
+            if (game.lines.length){
+              gameController.insertGame(game, function(err, game){
+                resolve(game);
+              });
+            }
+            else {
+              resolve();
+            }
           });
-        })).then(function(results) {
-          resolve(results);
         });
+      })).then(function(results) {
+        resolve(results);
       });
     });
   });
+};
+
+api.scrapeScores = function() {
+  var filePath = path.join(__dirname, '..', 'scores.html');
+  return new Promise(function(resolve, reject) {
+    fs.readFile(filePath, function(err, data){
+      var games = api.parseScores(data);
+      Promise.all(games.map(function(game){
+        return new Promise(function(resolve, reject) {
+          gameController.upsertGame(game, function(err, game){
+            if (err){
+              resolve(err);
+            }
+            else {
+              resolve(game);
+            }
+          });
+        });
+      })).then(function(results){
+        resolve(results);
+      });
+    });
+  });
+};
+
+api.parseScores = function(dom) {
+  var $ = cheerio.load(dom);
+  var games = [];
+  $('.matchup-container').each(function(i, elem) {
+    var game = {};
+    game.home = $(this).find('.home .city').text() + ' ' + $(this).find('.home .nick-name').text();
+    game.away = $(this).find('.away .city').text() + ' ' + $(this).find('.away .nick-name').text();
+    game.score = {
+      home: Number($(this).find('.box-score .home .total-score').text()),
+      away: Number($(this).find('.box-score .away .total-score').text())
+    };
+    game._id = $(this).find('.base-versus').attr('href').split('-').slice(-1).pop();
+    games.push(game);
+  });
+  return games;
 };
 
 api.parseGames = function(dom) {

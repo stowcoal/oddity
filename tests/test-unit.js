@@ -47,7 +47,8 @@ describe('dom parser', function() {
 
       done();
     });
-  });it('should return nw game info', function(done) {
+  });
+  it('should return nw game info', function(done) {
     var filePath = path.join(__dirname, '/line-nw.html');
     fs.readFile(filePath, function(err, data){
       var game = scraper.parseGame(data);
@@ -74,6 +75,23 @@ describe('dom parser', function() {
       done();
     });
   });
+  it('should return nw game info', function(done) {
+    var filePath = path.join(__dirname, '..', 'files', 'week-8.html');
+    fs.readFile(filePath, function(err, data){
+      var games = scraper.parseScores(data);
+      var testGame = {
+        home: 'Arkansas State Red Wolves',
+        away: 'Louisiana-Lafayette Ragin\' Cajuns',
+        score: {
+          home: 47,
+          away: 3
+        },
+        _id: '792923'
+      };
+      expect(games[0]).to.deep.equal(testGame);
+      done();
+    });
+  });
 })
 
 describe('games', function() {
@@ -92,7 +110,6 @@ describe('games', function() {
   };
   it('should add a game', function(done) {
     gameController.insertGame(game, function(err) {
-      console.log(err);
       Game.findOne({home: game.home, away: game.away, start: game.start}, function(err, data){
         expect(data.home).to.equal(game.home);
         expect(data.away).to.equal(game.away);

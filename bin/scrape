@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 var app = require('../app');
-console.log('scraping games from espn');
-require('../controllers/oddshark-scraper').exec().then(function(results) {
+console.log('scraping games from oddshark');
+require('../controllers/oddshark-scraper').scrapeOdds().then(function(results) {
   console.log('finished scraping ' + results.length + ' games from oddshark');
   process.exit();
 });

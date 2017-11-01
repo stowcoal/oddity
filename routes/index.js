@@ -7,8 +7,14 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/games', function(req, res, next) {
+router.get('/games/current', function(req, res, next) {
   gameController.getCurrentGames(function(err, data){
+    res.json(data);
+  });
+});
+
+router.get('/games', function(req, res, next) {
+  gameController.getGames(function(err, data){
     res.json(data);
   });
 });

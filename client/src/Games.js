@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import Game from './Game.js';
-import GridButton from './GridButton.js';
 
 class Games extends Component {
   constructor(props) {
@@ -13,10 +12,12 @@ class Games extends Component {
   }
 
   componentDidMount() {
-    var url = (process.env.NODE_ENV === 'production' ? process.env.REACT_APP_ODDITY_API : '') + '/games';
+    var url = (process.env.NODE_ENV === 'production' ? process.env.REACT_APP_ODDITY_API : '') + '/games/';
 
     if (this.props.week) {
-      url = url + '/' + this.props.week;
+      url += this.props.week;
+    } else {
+      url += 'current';
     }
     fetch(url)
       .then(res => res.json())
@@ -30,23 +31,12 @@ class Games extends Component {
   render() {
     return (
       <div>
-        {false && <nav className="navbar navbar-light navbar-expand bg-light justify-content-between">
-          <ul className="navbar-nav float-right">
-            <GridButton columns="1" onClick={this.updateColumns}/>
-            <GridButton columns="2" onClick={this.updateColumns}/>
-            <GridButton columns="4" onClick={this.updateColumns}/>
-          </ul>
-        </nav>}
-        <div className="row">
-          {this.state.games.map(function(game) {
-              return (
-                <div className={'col-md-' + (12 / this.state.columns)} key={game._id}>
-                  <Game game={game} />
-                </div>
-              );
+        {this.state.games.map(function(game) {
+            return (
+              <Game game={game} key={game._id} />
+            );
           }, this)
         }
-        </div>
       </div>
     )
   }

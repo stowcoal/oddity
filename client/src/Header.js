@@ -18,6 +18,9 @@ const Header = function() {
           <li className="nav-item">
             <a className="nav-link" href="/compare">Compare</a>
           </li>
+          <li className="nav-item">
+            <a className="nav-link" href="/results">Results</a>
+          </li>
         </ul>
       </div>
     </nav>

@@ -10,6 +10,14 @@ var gameSchema = new mongoose.Schema({
   away: {
     type: String
   },
+  score: {
+    home: {
+      type: Number
+    },
+    away: {
+      type: Number
+    }
+  },
   start: {
     type: Date
   },
