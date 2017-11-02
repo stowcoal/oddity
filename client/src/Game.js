@@ -5,7 +5,7 @@ import ChangeChart from './charts/ChangeChart.js';
 
 const Game = function(props) {
   return (
-    <div>
+    <div id={props.game._id}>
       <h3>
         <GameTitle game={props.game} />
       </h3>

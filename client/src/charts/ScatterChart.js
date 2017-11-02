@@ -5,7 +5,6 @@ const ScatterChart = function(props) {
   var results = props.games.reduce(function(res, game){
     if (game.score && game.lines.length){
       var diff = game.score.away - game.score.home;
-      console.log(game);
       res.push({x: diff, y: game.lines[game.lines.length-1].spread});
     }
     return res;

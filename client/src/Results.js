@@ -20,7 +20,7 @@ class Results extends Component {
 
   render() {
     return (
-      <div>
+      <div className="container">
         <ResultsChart games={this.state.games} />
         <ScatterChart games={this.state.games} />
       </div>

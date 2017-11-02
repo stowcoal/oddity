@@ -13,6 +13,7 @@ const WeekPicker = function(props) {
             return <li className="page-item" key={index}><a className="page-link" href={"/games/week/" + week}>{week}</a></li>;
           })
         }
+        <li className="page-item"><a className="page-link" href="/games/week">&gt;&gt;</a></li>
       </ul>
     </nav>
   )
