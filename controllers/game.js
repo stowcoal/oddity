@@ -4,7 +4,13 @@ var moment = require('moment');
 var api = {};
 
 api.getCurrentGames = function(cb) {
-  Game.find({start: {$gt: Date.now()}}, function(err, data) {
+  Game.find(
+    {
+      $and: [
+        {start: {$gt: Date.now()}},
+        {lines: {$ne: []}}
+      ]
+    }, function(err, data) {
     return cb(err, data);
   });
 };
@@ -16,7 +22,14 @@ api.getGames = function(cb) {
 };
 
 api.getGamesByWeek = function(week, cb) {
-  Game.find({start: {$gt: moment(Date.now()).week(35 + Number(week)).startOf('week'), $lt: moment().week(35 + Number(week)).endOf('week')}}, function(err, data) {
+  console.log(week);
+  Game.find(
+    {
+      $and: [
+        {start: {$gt: moment(Date.now()).week(35 + Number(week)).startOf('week'), $lt: moment().week(35 + Number(week)).endOf('week')}},
+        {lines: {$ne: []}}
+      ]
+    }, function(err, data) {
     return cb(err, data);
   });
 };
