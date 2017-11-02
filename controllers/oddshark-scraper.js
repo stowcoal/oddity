@@ -37,7 +37,7 @@ api.scrapeOdds = function() {
 
 api.backfillOdds = function() {
   return new Promise(function(resolve, reject) {
-    Game.find({}).exec(function(err, data){
+    Game.find({}).limit(1).exec(function(err, data){
       var games = data;
       Promise.all(games.map(function(game){
         return new Promise(function(resolve, reject) {
@@ -45,6 +45,7 @@ api.backfillOdds = function() {
             var parsedGame = api.parseGame(body);
             game.lines = parsedGame.lines;
             game.start = parsedGame.start;
+            game.updated = new Date(Date.now());
             gameController.upsertGame(game, function(err, game) {
               resolve(game);
             });
@@ -138,7 +139,12 @@ api.parseGame = function(dom) {
 api.parseTitle = function(str) {
   // #11 USC at #13 Notre Dame - Sat, Oct 21, 7:30 PM ET (402)
   var game = extractValues(str, "Line History - {away} @ {home}");
-  return game;
+  if (game) {
+    return game;
+  }
+  else {
+    return {};
+  }
 };
 
 

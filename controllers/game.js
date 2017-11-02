@@ -57,6 +57,8 @@ api.upsertGame = function(game, cb) {
         data.start = game.start;
       if (game.lines && game.lines.length > 0)
         data.lines = game.lines;
+      if (game.updated)
+        data.updated = game.updated;
     }
     else {
       data = new Game(game);
