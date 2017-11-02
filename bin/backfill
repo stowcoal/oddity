@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 var app = require('../app');
-require('../controllers/oddshark-scraper').scrapeScores().then(function(results){
+require('../controllers/oddshark-scraper').backfillOdds().then(function(results){
   console.log(results);
   process.exit();
 });

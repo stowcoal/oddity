@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import ResultsChart from './ResultsChart.js';
+import ResultsChart from './charts/ResultsChart.js';
 
 class Results extends Component {
   constructor(props) {

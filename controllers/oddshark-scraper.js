@@ -3,6 +3,7 @@ var moment = require('moment-timezone');
 var extractValues = require('extract-values');
 var request = require('request');
 var gameController = require('../controllers/game');
+var Game = require('../models/game');
 var fs = require('fs');
 var path = require('path');
 
@@ -29,6 +30,28 @@ api.scrapeOdds = function() {
         });
       })).then(function(results) {
         resolve(results);
+      });
+    });
+  });
+};
+
+api.backfillOdds = function() {
+  return new Promise(function(resolve, reject) {
+    Game.find({ lines: [] }).limit(100).exec(function(err, data){
+      var games = data;
+      Promise.all(games.map(function(game){
+        return new Promise(function(resolve, reject) {
+          request('http://www.oddsshark.com/ncaaf/odds/line-history/' + game._id, function(err, res, body) {
+            var parsedGame = api.parseGame(body);
+            game.lines = parsedGame.lines;
+            game.start = parsedGame.start;
+            gameController.upsertGame(game, function(err, game) {
+              resolve(game);
+            });
+          });
+        });
+      })).then(function(results) {
+        resolve(games);
       });
     });
   });

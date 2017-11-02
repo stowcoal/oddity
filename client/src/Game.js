@@ -1,7 +1,7 @@
 import React from 'react';
-import SpreadChart from './SpreadChart.js';
+import SpreadChart from './charts/SpreadChart.js';
 import GameTitle from './GameTitle.js';
-import ChangeChart from './ChangeChart.js';
+import ChangeChart from './charts/ChangeChart.js';
 
 const Game = function(props) {
   return (

@@ -44,11 +44,13 @@ api.upsertGame = function(game, cb) {
         data.start = game.start;
       if (game.lines && game.lines.length > 0)
         data.lines = game.lines;
-
-      data.save(function(err){
-        return cb(err, game);
-      });
     }
+    else {
+      data = new Game(game);
+    }
+    data.save(function(err){
+      return cb(err, data);
+    });
   });
 };
 

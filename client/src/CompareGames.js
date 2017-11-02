@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import CompareChart from './CompareChart';
+import CompareChart from './charts/CompareChart';
 
 class CompareGames extends Component {
   constructor(props) {
@@ -10,7 +10,7 @@ class CompareGames extends Component {
   }
 
   componentDidMount() {
-    fetch((process.env.NODE_ENV === 'production' ? process.env.REACT_APP_ODDITY_API : '') + '/games')
+    fetch((process.env.NODE_ENV === 'production' ? process.env.REACT_APP_ODDITY_API : '') + '/games/current')
       .then(res => res.json())
       .then(games => this.setState({games: games}));
   }

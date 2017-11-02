@@ -76,7 +76,7 @@ describe('dom parser', function() {
     });
   });
   it('should return nw game info', function(done) {
-    var filePath = path.join(__dirname, '..', 'files', 'week-8.html');
+    var filePath = path.join(__dirname, 'week-8.html');
     fs.readFile(filePath, function(err, data){
       var games = scraper.parseScores(data);
       var testGame = {
@@ -92,7 +92,7 @@ describe('dom parser', function() {
       done();
     });
   });
-})
+});
 
 describe('games', function() {
   var game = {
