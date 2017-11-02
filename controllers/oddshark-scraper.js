@@ -37,15 +37,17 @@ api.scrapeOdds = function() {
 
 api.backfillOdds = function() {
   return new Promise(function(resolve, reject) {
-    Game.find({}).limit(1).exec(function(err, data){
+    Game.find({}).exec(function(err, data){
       var games = data;
       Promise.all(games.map(function(game){
         return new Promise(function(resolve, reject) {
+          console.log('requesting: ' + game._id);
           request('http://www.oddsshark.com/ncaaf/odds/line-history/' + game._id, function(err, res, body) {
             var parsedGame = api.parseGame(body);
             game.lines = parsedGame.lines;
             game.start = parsedGame.start;
             game.updated = new Date(Date.now());
+            console.log('upserting: ' + game._id);
             gameController.upsertGame(game, function(err, game) {
               resolve(game);
             });
