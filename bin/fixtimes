@@ -1,0 +1,23 @@
+#!/usr/bin/env node
+var app = require('../app');
+var gameController = require('../controllers/game');
+var moment = require('moment-timezone');
+gameController.getGames(function(err, games){
+  Promise.all(games.map(function(game){
+    return new Promise(
+      function(resolve, reject){
+        game.start = moment(game.start).add(5, 'hours').toDate();
+        gameController.upsertGame(game, function(err, data){
+          if (err) {
+              return resolve(err)
+          }
+          else {
+            return resolve(data);
+          }
+        });
+      });
+  })).then(function(results){
+    console.log(results);
+    process.exit();
+  });
+});

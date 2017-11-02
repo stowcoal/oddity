@@ -37,7 +37,7 @@ api.scrapeOdds = function() {
 
 api.backfillOdds = function() {
   return new Promise(function(resolve, reject) {
-    Game.find({ lines: [] }).limit(100).exec(function(err, data){
+    Game.find({}).exec(function(err, data){
       var games = data;
       Promise.all(games.map(function(game){
         return new Promise(function(resolve, reject) {
@@ -111,7 +111,7 @@ api.parseGame = function(dom) {
   var game = {};
   var title = $('.page-title').text();
   game = api.parseTitle(title);
-  game.start = moment($('.lh-event-date').text(), 'ddd, MMMM DD, h:mm A').toDate();
+  game.start = moment.tz($('.lh-event-date').text(), 'ddd, MMMM DD, h:mm A', 'America/New_York').toDate();
   game.lines = [];
   var length = $('.base-table').has('a:contains("Wynn")').find('tbody > tr').length;
   $('.base-table').has('a:contains("Wynn")').find('tbody > tr').each(function(i, elem) {
@@ -124,13 +124,13 @@ api.parseGame = function(dom) {
     line.spread = Number(spreadString);
     line.overunder = Number($(this).find('td > .left').eq(1).text());
     game.lines.push(line);
-    if (i === length - 1) {
+    /*if (i === length - 1) {
       var current = {};
       current.timestamp = new Date(Date.now());
       current.spread = line.spread;
       current.overunder = line.overunder;
       game.lines.push(current);
-    }
+    }*/
   });
   return game;
 };

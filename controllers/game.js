@@ -26,7 +26,7 @@ api.getGamesByWeek = function(week, cb) {
   Game.find(
     {
       $and: [
-        {start: {$gt: moment(Date.now()).week(35 + Number(week)).startOf('week'), $lt: moment().week(35 + Number(week)).endOf('week')}},
+        {start: {$gt: moment(Date.now()).week(34 + Number(week)).startOf('week'), $lt: moment().week(34 + Number(week)).endOf('week')}},
         {lines: {$ne: []}}
       ]
     }, function(err, data) {

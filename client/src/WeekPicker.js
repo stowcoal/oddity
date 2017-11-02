@@ -9,8 +9,8 @@ const WeekPicker = function(props) {
           <a className="page-link" href="#" tabIndex="-1">Week</a>
         </li>
         {
-          weeks.map(function(week){
-            return <li className="page-item"><a className="page-link" href={"/games/week/" + week}>{week}</a></li>;
+          weeks.map(function(week, index){
+            return <li className="page-item" key={index}><a className="page-link" href={"/games/week/" + week}>{week}</a></li>;
           })
         }
       </ul>

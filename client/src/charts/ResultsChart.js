@@ -7,7 +7,7 @@ const ResultsChart = function(props) {
   var results = props.games.reduce(function(res, game){
     if (game.score){
       var diff = Math.abs(game.score.home - game.score.away);
-      if (typeof res[diff] == 'undefined')
+      if (typeof res[diff] === 'undefined')
         res[diff] = 1;
       else
         res[diff] += 1;
@@ -26,9 +26,7 @@ const ResultsChart = function(props) {
         return default_colors[index % 20];
       })
     }]
-  }
-
-  console.log(data);
+  };
 
   return <Bar data={data}/>;
 }

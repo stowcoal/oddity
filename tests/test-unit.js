@@ -4,7 +4,7 @@ var gameController = require('../controllers/game');
 var Game = require('../models/game');
 var fs = require('fs');
 var path = require('path');
-var moment = require('moment');
+var moment = require('moment-timezone');
 var games = [];
 
 describe('dom parser', function() {
@@ -30,7 +30,8 @@ describe('dom parser', function() {
       var game = scraper.parseGame(data);
       expect(game.home).to.equal('Ball State Cardinals');
       expect(game.away).to.equal('Toledo Rockets');
-      expect(game.start.getTime()).to.equal(new Date('10/26/2017 7:00 PM').getTime());
+      console.log(game.start);
+      expect(game.start.getTime()).to.equal(new Date('10/26/2017 6:00 PM CDT').getTime());
       var lines = [
         { timestamp: new Date("2017-10-22T23:02:13.000"), spread: 21.5, overunder: 0 },
         { timestamp: new Date("2017-10-22T23:09:30.000"), spread: 22.5, overunder: 0 },
@@ -54,7 +55,7 @@ describe('dom parser', function() {
       var game = scraper.parseGame(data);
       expect(game.home).to.equal('Northwestern Wildcats');
       expect(game.away).to.equal('Michigan State Spartans');
-      expect(game.start.getTime()).to.equal(new Date('10/28/2017 3:30 PM').getTime());
+      expect(game.start.getTime()).to.equal(new Date('10/28/2017 2:30 PM CDT').getTime());
       var lines = [
         { timestamp: new Date("2017-10-22T23:02:15.000"), spread: 0, overunder: 0 },
         { timestamp: new Date("2017-10-22T23:09:31.000"), spread: 1, overunder: 0 },
@@ -138,7 +139,7 @@ describe('games', function() {
     });
   });
   it('should get previous weeks games', function(done) {
-    gameController.getGamesByWeek(7, function(err, data){
+    gameController.getGamesByWeek(8, function(err, data){
       data.forEach(function(game) {
         expect(game.start.getTime()).to.be.above(new Date('10/23/2017').getTime());
         expect(game.start.getTime()).to.be.below(new Date('10/29/2017').getTime());
