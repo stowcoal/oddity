@@ -10,13 +10,13 @@ api.getCurrentGames = function(cb) {
         {start: {$gt: Date.now()}},
         {lines: {$ne: []}}
       ]
-    }, function(err, data) {
+    }).sort('start').exec(function(err, data) {
     return cb(err, data);
   });
 };
 
 api.getGames = function(cb) {
-  Game.find({}, function(err, data) {
+  Game.find({}).sort('start').exec(function(err, data) {
     return cb(err, data);
   });
 };
@@ -34,7 +34,7 @@ api.getGamesByWeek = function(week, cb) {
         {start: {$gt: moment(Date.now()).week(34 + Number(week)).startOf('week'), $lt: moment().week(34 + Number(week)).endOf('week')}},
         {lines: {$ne: []}}
       ]
-    }, function(err, data) {
+    }).sort('start').exec(function(err, data) {
     return cb(err, data);
   });
 };
