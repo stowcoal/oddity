@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ResultsChart from './charts/ResultsChart.js';
 import ScatterChart from './charts/ScatterChart.js';
+import SpreadScoreDiffChart from './charts/SpreadScoreDiffChart.js'
 
 class Results extends Component {
   constructor(props) {
@@ -21,8 +22,9 @@ class Results extends Component {
   render() {
     return (
       <div className="container">
-        <ResultsChart games={this.state.games} />
+        <SpreadScoreDiffChart games={this.state.games} />
         <ScatterChart games={this.state.games} />
+        <ResultsChart games={this.state.games} />
       </div>
     );
   }
