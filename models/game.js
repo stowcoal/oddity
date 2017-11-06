@@ -24,6 +24,9 @@ var gameSchema = new mongoose.Schema({
   updated: {
     type: Date
   },
+  result_link: {
+    type: String
+  },
   lines: [{
     book: {
       type: String

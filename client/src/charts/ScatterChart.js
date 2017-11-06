@@ -15,15 +15,41 @@ const ScatterChart = function(props) {
   const data = {
     datasets: [
       {
-        type: 'scatter',
-        label: 'Score Differentials',
-        pointBackgroundColor: results.map((result) => result.x >= result.y ? 'Black' : 'Red'),
-        data: results
+        label: 'Home Covers',
+        backgroundColor: 'Blue',
+        data: results.filter((result) => (result.x > result.y))
+      },
+      {
+        label: 'Push',
+        backgroundColor: 'Black',
+        data: results.filter((result) => (result.x === result.y))
+      },
+      {
+        label: 'Away Covers',
+        backgroundColor: 'Green',
+        data: results.filter((result) => (result.x < result.y))
       }
     ]
   };
 
+  console.log(data);
+
   const options = {
+    hoverMode: 'single',
+    scales: {
+      yAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Spread'
+        }
+      }],
+      xAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Score Difference'
+        }
+      }]
+    },
     tooltips: {
       callbacks: {
         title: function(tooltipItems, data){

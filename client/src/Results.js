@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import ResultsChart from './charts/ResultsChart.js';
 import ScatterChart from './charts/ScatterChart.js';
-import SpreadScoreDiffChart from './charts/SpreadScoreDiffChart.js'
+import SpreadScoreErrorChart from './charts/SpreadScoreErrorChart.js'
+import ErrorMarginChart from './charts/ErrorMarginChart.js'
 
 class Results extends Component {
   constructor(props) {
@@ -22,7 +23,8 @@ class Results extends Component {
   render() {
     return (
       <div className="container">
-        <SpreadScoreDiffChart games={this.state.games} />
+        <SpreadScoreErrorChart games={this.state.games}/>
+        <ErrorMarginChart games={this.state.games} margin={7}/>
         <ScatterChart games={this.state.games} />
         <ResultsChart games={this.state.games} />
       </div>

@@ -83,6 +83,15 @@ api.scrapeScores = function() {
   });
 };
 
+api.fillScores = function() {
+
+};
+
+api.parseResult = function(dom) {
+  var game = {};
+  return game;
+};
+
 api.parseScores = function(dom) {
   var $ = cheerio.load(dom);
   var games = [];
@@ -90,6 +99,7 @@ api.parseScores = function(dom) {
     var game = {};
     game.home = $(this).find('.home .city').text() + ' ' + $(this).find('.home .nick-name').text();
     game.away = $(this).find('.away .city').text() + ' ' + $(this).find('.away .nick-name').text();
+    game.result_link = $(this).find('.base-versus').attr('href');
     game.score = {
       home: Number($(this).find('.box-score .home .total-score').text()),
       away: Number($(this).find('.box-score .away .total-score').text())
@@ -115,6 +125,7 @@ api.parseGame = function(dom) {
   var title = $('.page-title').text();
   game = api.parseTitle(title);
   game.start = moment.tz($('.lh-event-date').text(), 'ddd, MMMM DD, h:mm A', 'America/New_York').toDate();
+  game.result_link = $('.full-matchup').attr('href');
   game.lines = [];
   var length = $('.base-table').has('a:contains("Wynn")').find('tbody > tr').length;
   $('.base-table').has('a:contains("Wynn")').find('tbody > tr').each(function(i, elem) {

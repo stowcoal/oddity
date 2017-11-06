@@ -3,11 +3,11 @@ import {Bar} from 'react-chartjs-2';
 
 var default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC'];
 
-const SpreadScoreDiffChart = function(props) {
+const SpreadScoreErrorChart = function(props) {
   var results = props.games.reduce(function(res, game){
     if (game.score && game.lines.length){
       var diff = Number(game.score.away) - Number(game.score.home);
-      diff = Math.abs(diff - Number(game.lines[game.lines.length-1].spread));
+      diff = Math.ceil(Math.abs(diff - Number(game.lines[game.lines.length-1].spread)));
       if (typeof res[diff] === 'undefined')
         res[diff] = 1;
       else
@@ -15,8 +15,6 @@ const SpreadScoreDiffChart = function(props) {
     }
     return res;
   }, {});
-
-  console.log(results);
 
   var labels = [];
   if (Object.keys(results).length) {
@@ -47,7 +45,27 @@ const SpreadScoreDiffChart = function(props) {
     ]
   };
 
-  return <Bar data={data} />;
+  const options = {
+    scales: {
+      yAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Spreads'
+        }
+      }],
+      xAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Spread Score Difference'
+        }
+      }]
+    }
+  };
+
+  return <div>
+    <h3>Number of spreads off by a certain number of points</h3>
+    <Bar data={data} options={options} />
+  </div>;
 }
 
-export default SpreadScoreDiffChart;
+export default SpreadScoreErrorChart;

@@ -30,7 +30,7 @@ describe('dom parser', function() {
       var game = scraper.parseGame(data);
       expect(game.home).to.equal('Ball State Cardinals');
       expect(game.away).to.equal('Toledo Rockets');
-      console.log(game.start);
+      expect(game.result_link).to.equal('/ncaaf/toledo-ball-state-odds-october-26-2017-793208');
       expect(game.start.getTime()).to.equal(new Date('10/26/2017 6:00 PM CDT').getTime());
       var lines = [
         { timestamp: new Date("2017-10-22T23:02:13.000"), spread: 21.5, overunder: 0 },
@@ -87,12 +87,16 @@ describe('dom parser', function() {
           home: 47,
           away: 3
         },
-        _id: '792923'
+        _id: '792923',
+        result_link: '/ncaaf/louisiana-lafayette-arkansas-state-odds-october-19-2017-792923'
       };
       expect(games[0]).to.deep.equal(testGame);
       done();
     });
   });
+  it('should update completed games without scores', function(done) {
+    done();
+  })
 });
 
 describe('games', function() {
@@ -139,7 +143,7 @@ describe('games', function() {
     });
   });
   it('should get previous weeks games', function(done) {
-    gameController.getGamesByWeek(8, function(err, data){
+    gameController.getGamesByWeek(9, function(err, data){
       data.forEach(function(game) {
         expect(game.start.getTime()).to.be.above(new Date('10/23/2017').getTime());
         expect(game.start.getTime()).to.be.below(new Date('10/29/2017').getTime());
@@ -147,4 +151,14 @@ describe('games', function() {
       done();
     });
   });
+  it('should get games in the past that without a score', function(done) {
+    gameController.getCompletedGamesWithoutScores(function(err, games) {
+      games.forEach(function(game){
+        expect(game.start.getTime()).to.be.below(new Date().getTime());
+        expect(game.score.home).to.be.undefined;
+        expect(game.score.away).to.be.undefined;
+      });
+      done();
+    });
+  })
 });

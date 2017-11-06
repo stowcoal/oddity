@@ -21,8 +21,13 @@ api.getGames = function(cb) {
   });
 };
 
+api.getCompletedGamesWithoutScores = function(cb) {
+  Game.find({start: {$lt: new Date()}, score: {}}, function(err, data){
+    return cb(err, data);
+  });
+};
+
 api.getGamesByWeek = function(week, cb) {
-  console.log(week);
   Game.find(
     {
       $and: [
@@ -59,6 +64,8 @@ api.upsertGame = function(game, cb) {
         data.lines = game.lines;
       if (game.updated)
         data.updated = game.updated;
+      if(game.result_link)
+        data.result_link = game.result_link;
     }
     else {
       data = new Game(game);

@@ -43,10 +43,27 @@ function buildData(games, useAbsolute, title) {
 }
 
 const ResultsChart = function(props) {
+  const options = {
+    scales: {
+      yAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Number of Games'
+        }
+      }],
+      xAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: 'Score Difference'
+        }
+      }]
+    }
+  };
+
   return (
     <div>
-      <Bar data={buildData(props.games, false, "Real Differentials")}/>
-      <Bar data={buildData(props.games, true, "Absolute Differentials")}/>
+      <Bar data={buildData(props.games, false, "Real Differentials")} options={options}/>
+      <Bar data={buildData(props.games, true, "Absolute Differentials")} options={options}/>
     </div>
   );
 }
