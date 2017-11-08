@@ -1,22 +1,27 @@
-import React from 'react';
+import React, {Component} from 'react';
+import Moment from 'moment';
+import {withRouter} from 'react-router-dom';
 
-const WeekPicker = function(props) {
-  var weeks = [1,2,3,4,5,6,7,8,9];
-  return (
-    <nav>
-      <ul className="pagination">
-        <li className="page-item disabled">
-          <a className="page-link" href="#" tabIndex="-1">Week</a>
-        </li>
-        {
-          weeks.map(function(week, index){
-            return <li className="page-item" key={index}><a className="page-link" href={"/games/week/" + week}>{week}</a></li>;
-          })
-        }
-        <li className="page-item"><a className="page-link" href="/games/week">&gt;&gt;</a></li>
-      </ul>
-    </nav>
-  )
+class WeekPicker extends Component {
+  render() {
+    var weeks = Moment().week() - 34;
+    var weeksArray = Array(weeks).fill().map((_, i) => i + 1);
+    return (
+      <nav>
+        <ul className="pagination">
+          <li className="page-item disabled">
+            <a className="page-link" href="#" tabIndex="-1">Week</a>
+          </li>
+          {
+            weeksArray.map((week, index) => (
+              <li className={"page-item" + (this.props.location.pathname.endsWith('/' + week) && ' active')} key={index}><a className="page-link" href={"/games/week/" + week}>{week}</a></li>
+            ))
+          }
+          <li className={"page-item" + (this.props.location.pathname.endsWith('games') && ' active')}><a className="page-link" href="/games">&gt;&gt;</a></li>
+        </ul>
+      </nav>
+    )
+  }
 }
 
-export default WeekPicker;
+export default withRouter(WeekPicker);

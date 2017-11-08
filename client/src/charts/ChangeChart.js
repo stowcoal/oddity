@@ -49,6 +49,11 @@ const ChangeChart = function(props) {
     ]
   };
   var options = {
+    layout: {
+      padding: {
+        left: 20 // padding so the scalelable isn't cutoff
+      }
+    },
     scales: {
       xAxes: [{
         type: 'time',

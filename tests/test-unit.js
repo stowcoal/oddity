@@ -37,8 +37,7 @@ describe('dom parser', function() {
         { timestamp: new Date("2017-10-22T23:09:30.000"), spread: 22.5, overunder: 0 },
         { timestamp: new Date("2017-10-22T23:54:33.000"), spread: 23.5, overunder: 0 },
         { timestamp: new Date("2017-10-23T00:24:46.000"), spread: 24.5, overunder: 0 },
-        { timestamp: new Date("2017-10-23T15:08:46.000"), spread: 25.5, overunder: 0 },
-        { timestamp: game.lines[game.lines.length-1].timestamp, spread: 25.5, overunder: 0 }
+        { timestamp: new Date("2017-10-23T15:08:46.000"), spread: 25.5, overunder: 0 }
       ];
       for (var index = 0; index < lines.length; ++index) {
         expect(game.lines[index].spread).to.equal(lines[index].spread);
@@ -64,8 +63,7 @@ describe('dom parser', function() {
         { timestamp: new Date("2017-10-23T19:23:39.000"), spread: 1, overunder: 0 },
         { timestamp: new Date("2017-10-23T21:23:06.000"), spread: 1.5, overunder: 0 },
         { timestamp: new Date("2017-10-24T21:34:51.000"), spread: 2, overunder: 0 },
-        { timestamp: new Date("2017-10-25T17:07:51.000"), spread: 2.5, overunder: 0 },
-        { timestamp: game.lines[game.lines.length-1].timestamp, spread: 2.5, overunder: 0 }
+        { timestamp: new Date("2017-10-25T17:07:51.000"), spread: 2.5, overunder: 0 }
       ];
       for (var index = 0; index < lines.length; ++index) {
         expect(game.lines[index].spread).to.equal(lines[index].spread);
@@ -95,6 +93,7 @@ describe('dom parser', function() {
     });
   });
   it('should update completed games without scores', function(done) {
+    scraper.fillScores();
     done();
   })
 });
@@ -151,7 +150,7 @@ describe('games', function() {
       done();
     });
   });
-  it('should get games in the past that without a score', function(done) {
+  it('should get games in the past without a score', function(done) {
     gameController.getCompletedGamesWithoutScores(function(err, games) {
       games.forEach(function(game){
         expect(game.start.getTime()).to.be.below(new Date().getTime());

@@ -22,7 +22,14 @@ api.getGames = function(cb) {
 };
 
 api.getCompletedGamesWithoutScores = function(cb) {
-  Game.find({start: {$lt: new Date()}, score: {}}, function(err, data){
+  Game.find({
+    start: {
+      $lt: new Date()
+    },
+    $or: [
+      { score: { $exists: false } }, { score: {} } 
+    ]
+  }, function(err, data){
     return cb(err, data);
   });
 };

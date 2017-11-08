@@ -19,7 +19,7 @@ api.scrapeOdds = function() {
             var game = api.parseGame(body);
             game._id = gameId;
             if (game.lines.length){
-              gameController.insertGame(game, function(err, game){
+              gameController.upsertGame(game, function(err, game){
                 resolve(game);
               });
             }
@@ -37,7 +37,7 @@ api.scrapeOdds = function() {
 
 api.backfillOdds = function() {
   return new Promise(function(resolve, reject) {
-    Game.find({}).exec(function(err, data){
+    gameController.getGamesByWeek(10, function(err, data){
       var games = data;
       Promise.all(games.map(function(game){
         return new Promise(function(resolve, reject) {
@@ -56,6 +56,7 @@ api.backfillOdds = function() {
       })).then(function(results) {
         resolve(games);
       });
+
     });
   });
 };
@@ -84,7 +85,15 @@ api.scrapeScores = function() {
 };
 
 api.fillScores = function() {
-
+  return new Promise(function(resolve, reject) {
+    gameController.getCompletedGamesWithoutScores(function(err, data){
+      var games = data;
+      games.forEach(function(game) {
+        console.log(game.result_link);
+      });
+      resolve();
+    });
+  });
 };
 
 api.parseResult = function(dom) {
@@ -125,7 +134,7 @@ api.parseGame = function(dom) {
   var title = $('.page-title').text();
   game = api.parseTitle(title);
   game.start = moment.tz($('.lh-event-date').text(), 'ddd, MMMM DD, h:mm A', 'America/New_York').toDate();
-  game.result_link = $('.full-matchup').attr('href');
+  game.result_link = $('.lh-matchup-link .full-matchup').attr('href');
   game.lines = [];
   var length = $('.base-table').has('a:contains("Wynn")').find('tbody > tr').length;
   $('.base-table').has('a:contains("Wynn")').find('tbody > tr').each(function(i, elem) {
@@ -138,7 +147,7 @@ api.parseGame = function(dom) {
     line.spread = Number(spreadString);
     line.overunder = Number($(this).find('td > .left').eq(1).text());
     game.lines.push(line);
-    if (i === length - 1) {
+    if (i === length - 1 && length === 1) {
       var current = {};
       current.timestamp = new Date(Date.now());
       current.spread = line.spread;
