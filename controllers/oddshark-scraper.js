@@ -88,16 +88,38 @@ api.fillScores = function() {
   return new Promise(function(resolve, reject) {
     gameController.getCompletedGamesWithoutScores(function(err, data){
       var games = data;
-      games.forEach(function(game) {
-        console.log(game.result_link);
+      Promise.all(games.map(function(game) {
+        console.log('requesting: ' + game.result_link);
+        return new Promise(function(resolve, reject) {
+          request('http://www.oddsshark.com/' + game.result_link, function(err, res, body) {
+            var gameResult = api.parseResult(body);
+            game.score = gameResult.score;
+            console.log('upserting: ' + game._id);
+            gameController.upsertGame(game, function(err, game){
+              if (err){
+                resolve(err);
+              }
+              else {
+                resolve(game);
+              }
+            });
+          });
+        });
+      })).then(function(results){
+        resolve(results);
       });
-      resolve();
     });
   });
 };
 
 api.parseResult = function(dom) {
   var game = {};
+  var $ = cheerio.load(dom);
+  var data = JSON.parse($('#gc-data').html());
+  game.score = {
+    home: data.oddsshark_gamecenter.scoreboard.data.home_score,
+    away: data.oddsshark_gamecenter.scoreboard.data.away_score
+  };
   return game;
 };
 

@@ -92,10 +92,15 @@ describe('dom parser', function() {
       done();
     });
   });
-  it('should update completed games without scores', function(done) {
-    scraper.fillScores();
-    done();
-  })
+  it('should parse results dom', function(done) {
+    var filePath = path.join(__dirname, 'results.html');
+    fs.readFile(filePath, function(err, data){
+      var game = scraper.parseResult(data);
+      expect(game.score.away).to.equal(14);
+      expect(game.score.home).to.equal(24);
+      done();
+    });
+  });
 });
 
 describe('games', function() {

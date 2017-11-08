@@ -27,7 +27,7 @@ api.getCompletedGamesWithoutScores = function(cb) {
       $lt: new Date()
     },
     $or: [
-      { score: { $exists: false } }, { score: {} } 
+      { score: { $exists: false } }, { score: {} }
     ]
   }, function(err, data){
     return cb(err, data);
@@ -38,7 +38,7 @@ api.getGamesByWeek = function(week, cb) {
   Game.find(
     {
       $and: [
-        {start: {$gt: moment(Date.now()).week(34 + Number(week)).startOf('week'), $lt: moment().week(34 + Number(week)).endOf('week')}},
+        {start: {$gt: moment(Date.now()).week(34 + Number(week)).startOf('isoWeek'), $lt: moment().week(34 + Number(week)).endOf('isoWeek')}},
         {lines: {$ne: []}}
       ]
     }).sort('start').exec(function(err, data) {
