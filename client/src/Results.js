@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import ResultsChart from './charts/ResultsChart.js';
-import ScatterChart from './charts/ScatterChart.js';
-import SpreadScoreErrorChart from './charts/SpreadScoreErrorChart.js'
-import ErrorMarginChart from './charts/ErrorMarginChart.js'
+import ErrorChart from './charts/ErrorChart.js';
+import SpreadScoreChart from './charts/SpreadScoreChart.js';
+import SpreadErrorChart from './charts/SpreadErrorChart.js';
+import ErrorMarginChart from './charts/ErrorMarginChart.js';
+import SpreadErrorPercentChart from './charts/SpreadErrorPercentChart.js';
 
 class Results extends Component {
   constructor(props) {
@@ -23,10 +25,20 @@ class Results extends Component {
   render() {
     return (
       <div className="container">
-        <SpreadScoreErrorChart games={this.state.games}/>
+        <h3>Spread Error Frequency</h3>
+        <ErrorChart games={this.state.games}/>
+        <h3>Spread Error within Margin of 7 points</h3>
         <ErrorMarginChart games={this.state.games} margin={7}/>
-        <ScatterChart games={this.state.games} />
-        <ResultsChart games={this.state.games} />
+        <h3>Spread vs Score Difference</h3>
+        <SpreadScoreChart games={this.state.games} />
+        <h3>Spread vs Error</h3>
+        <SpreadErrorChart games={this.state.games} />
+        <h3>Spread vs Home Cover Percent</h3>
+        <SpreadErrorPercentChart games={this.state.games} />
+        <h3>Net Score Difference</h3>
+        <ResultsChart games={this.state.games} absolute={false}/>
+        <h3>Absolute Score Difference</h3>
+        <ResultsChart games={this.state.games} absolute={true}/>
       </div>
     );
   }

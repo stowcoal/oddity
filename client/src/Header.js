@@ -1,6 +1,7 @@
 import React from 'react';
+import {withRouter} from 'react-router-dom';
 
-const Header = function() {
+const Header = function(props) {
   return (
     <nav className="navbar navbar-light navbar-expand bg-light">
       <a className="navbar-brand" href="#">Oddity</a>
@@ -9,16 +10,16 @@ const Header = function() {
       </button>
       <div className="collapse navbar-collapse" id="navbarNavDropdown">
         <ul className="navbar-nav">
-          <li className="nav-item active">
+          <li className={"nav-item " + (props.location.pathname === '/' && 'active')}>
             <a className="nav-link" href="/">Home <span className="sr-only">(current)</span></a>
           </li>
-          <li className="nav-item">
+          <li className={"nav-item " + (props.location.pathname.includes('games') && 'active') }>
             <a className="nav-link" href="/games">Games</a>
           </li>
-          <li className="nav-item">
+          <li className={"nav-item " + (props.location.pathname.includes('compare') && 'active')}>
             <a className="nav-link" href="/compare">Compare</a>
           </li>
-          <li className="nav-item">
+          <li className={"nav-item " + (props.location.pathname.includes('results')&& 'active')}>
             <a className="nav-link" href="/results">Results</a>
           </li>
         </ul>
@@ -27,4 +28,4 @@ const Header = function() {
   );
 }
 
-export default Header;
+export default withRouter(Header);

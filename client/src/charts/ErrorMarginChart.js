@@ -30,7 +30,6 @@ const SpreadScoreErrorChart = function(props) {
   };
 
   return <div>
-    <h3>Spreads within a margin of {props.margin} points</h3>
     <Pie data={data} />
   </div>;
 }

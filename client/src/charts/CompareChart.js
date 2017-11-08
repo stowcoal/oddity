@@ -39,7 +39,7 @@ const CompareChart = function(props) {
       }]
     },
     legend: {
-      position: 'bottom'
+      display: false
     }
   };
   return <Line data={data} options={options} height={250}/>;

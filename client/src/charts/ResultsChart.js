@@ -3,7 +3,7 @@ import {Bar} from 'react-chartjs-2';
 
 var default_colors = ['#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC','#0099C6','#DD4477','#66AA00','#B82E2E','#316395','#994499','#22AA99','#AAAA11','#6633CC','#E67300','#8B0707','#329262','#5574A6','#3B3EAC'];
 
-function buildData(games, useAbsolute, title) {
+function buildData(games, useAbsolute) {
   var results = games.reduce(function(res, game){
     if (game.score){
       var diff = useAbsolute ? Math.abs(game.score.home - game.score.away) : game.score.home - game.score.away;
@@ -31,7 +31,7 @@ function buildData(games, useAbsolute, title) {
   return {
     labels: labels,
     datasets: [{
-      label: title,
+      label: 'Score Differentials',
       data: labels.map(function(result){
         return results[result];
       }),
@@ -61,10 +61,7 @@ const ResultsChart = function(props) {
   };
 
   return (
-    <div>
-      <Bar data={buildData(props.games, false, "Real Differentials")} options={options}/>
-      <Bar data={buildData(props.games, true, "Absolute Differentials")} options={options}/>
-    </div>
+    <Bar data={buildData(props.games, props.absolute)} options={options}/>
   );
 }
 

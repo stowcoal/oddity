@@ -5,6 +5,7 @@ import Header from './Header.js';
 
 class App extends Component {
   render() {
+    console.log(this.props)
     return (
 
       <div className="App">
