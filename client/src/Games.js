@@ -1,5 +1,9 @@
 import React, {Component} from 'react';
-import Game from './Game.js';
+import SpreadChart from './charts/SpreadChart.js';
+import GameTitle from './GameTitle.js';
+import ChangeChart from './charts/ChangeChart.js';
+import Moment from 'react-moment';
+import 'moment-timezone';
 
 class Games extends Component {
   constructor(props) {
@@ -31,15 +35,31 @@ class Games extends Component {
   render() {
     return (
       <div>
-        {this.state.games.map(function(game) {
+        {
+          this.state.games.map(function(game) {
             return (
-              <Game game={game} key={game._id} />
-            );
-          }, this)
-        }
+              <div id={game._id} key={game._id}>
+                <h4>
+                  <a href={'/game/' + game._id}><GameTitle game={game} /></a>
+                </h4>
+                <div><Moment format="ddd MMM D YYYY h:mm A">{game.start}</Moment>
+                <div className='row'>
+                  <div className='col-md-6'>
+                    <SpreadChart game={game} />
+                  </div>
+                  <div className='col-md-6'>
+                    <ChangeChart game={game} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })
+      }
       </div>
     )
   }
+
 }
 
 export default Games;

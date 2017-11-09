@@ -21,6 +21,12 @@ api.getGames = function(cb) {
   });
 };
 
+api.getGame = function(id, cb) {
+  Game.findOne({_id: id}).exec(function(err, data) {
+    return cb(err, data);
+  });
+};
+
 api.getCompletedGamesWithoutScores = function(cb) {
   Game.find({
     start: {

@@ -25,4 +25,10 @@ router.get('/games/:week', function(req, res, next) {
   });
 });
 
+router.get('/game/:id', function(req, res, next) {
+  gameController.getGame(req.params.id, function(err, data){
+    res.json(data);
+  });
+});
+
 module.exports = router;

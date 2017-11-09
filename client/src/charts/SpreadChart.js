@@ -3,22 +3,25 @@ import {Line} from 'react-chartjs-2';
 import RandomColor from '../helpers/RandomColor.js';
 
 const SpreadChart = function(props) {
-  const data = {
-    datasets: [
-      {
-        fill: false,
-        borderColor: RandomColor(),
-        lineTension: 0,
-        label: 'Spread',
-        data: props.game.lines.map(line => (
-          {
-            t: line.timestamp,
-            y: line.spread
-          }
-        ))
-      }
-    ]
-  };
+  var data = {};
+  if (props.game.lines){
+    data = {
+      datasets: [
+        {
+          fill: false,
+          borderColor: RandomColor(),
+          lineTension: 0,
+          label: 'Spread',
+          data: props.game.lines.map(line => (
+            {
+              t: line.timestamp,
+              y: line.spread
+            }
+          ))
+        }
+      ]
+    };
+  }
   var options = {
     scales: {
       xAxes: [{

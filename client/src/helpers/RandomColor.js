@@ -3,7 +3,6 @@ const colors = [
 ];
 
 const RandomColor = function(size) {
-  console.log(size);
   if (size > 0){
     return Array(size).fill().map((_, i) => colors[i % colors.length]);
   }
