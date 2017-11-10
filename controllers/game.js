@@ -16,7 +16,7 @@ api.getCurrentGames = function(cb) {
 };
 
 api.getGames = function(cb) {
-  Game.find({}).sort('start').exec(function(err, data) {
+  Game.find({lines: {$ne: []}}).sort('start').exec(function(err, data) {
     return cb(err, data);
   });
 };

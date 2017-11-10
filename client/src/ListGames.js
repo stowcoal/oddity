@@ -1,26 +1,25 @@
 import React, {Component} from 'react';
 import Games from './Games.js';
-import WeekPicker from './WeekPicker.js';
 
 class ListGames extends Component {
   constructor(props){
     super(props);
     this.state = {
-      week: props.match.params.week
+      games: []
     };
-    this.updateWeek = this.updateWeek.bind(this);
   }
-  updateWeek(state) {
-    this.setState(state);
+  componentDidMount() {
+    var url = (process.env.NODE_ENV === 'production' ? process.env.REACT_APP_ODDITY_API : '') + '/games';
+
+    fetch(url)
+      .then(res => res.json())
+      .then(games => this.setState({games}));
   }
   render () {
     return (
     <div className="container">
-      <h1>Games</h1>
-      <div className="d-flex justify-content-end">
-        <WeekPicker />
-      </div>
-      <Games week={this.state.week} />
+      <h1>All Games</h1>
+      <Games games={this.state.games.slice(0,10)} />
     </div>
   );
   }

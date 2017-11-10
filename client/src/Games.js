@@ -7,37 +7,11 @@ import Moment from 'react-moment';
 import 'moment-timezone';
 
 class Games extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      games: [],
-      columns: 3
-    }
-    this.updateColumns = this.updateColumns.bind(this);
-  }
-
-  componentDidMount() {
-    var url = (process.env.NODE_ENV === 'production' ? process.env.REACT_APP_ODDITY_API : '') + '/games/';
-
-    if (this.props.week) {
-      url += this.props.week;
-    } else {
-      url += 'current';
-    }
-    fetch(url)
-      .then(res => res.json())
-      .then(games => this.setState({games}));
-  }
-
-  updateColumns(option) {
-    this.setState(option);
-  }
-
   render() {
     return (
       <div>
         {
-          this.state.games.map(function(game) {
+          this.props.games && this.props.games.map(function(game) {
             return (
               <div id={game._id} key={game._id}>
                 <h4>

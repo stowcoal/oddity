@@ -14,10 +14,10 @@ class WeekPicker extends Component {
           </li>
           {
             weeksArray.map((week, index) => (
-              <li className={"page-item" + (this.props.location.pathname.endsWith('/' + week) && ' active')} key={index}><a className="page-link" href={"/games/week/" + week}>{week}</a></li>
+              <li className={"page-item" + (this.props.location.pathname.endsWith('/' + week) && ' active')} key={index}><a className="page-link" href={"/week/" + week}>{week}</a></li>
             ))
           }
-          <li className={"page-item" + (this.props.location.pathname.endsWith('games') && ' active')}><a className="page-link" href="/games">&gt;&gt;</a></li>
+          <li className={"page-item" + (this.props.location.pathname.endsWith('games') && ' active')}><a className="page-link" href="/week">&gt;&gt;</a></li>
         </ul>
       </nav>
     )

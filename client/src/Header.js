@@ -13,6 +13,9 @@ const Header = function(props) {
           <li className={"nav-item " + (props.location.pathname === '/' && 'active')}>
             <a className="nav-link" href="/">Home <span className="sr-only">(current)</span></a>
           </li>
+          <li className={"nav-item " + (props.location.pathname.includes('week') && 'active') }>
+            <a className="nav-link" href="/week">Weeks</a>
+          </li>
           <li className={"nav-item " + (props.location.pathname.includes('games') && 'active') }>
             <a className="nav-link" href="/games">Games</a>
           </li>
