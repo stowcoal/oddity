@@ -3,7 +3,7 @@ import {Line} from 'react-chartjs-2';
 import RandomColor from '../helpers/RandomColor.js';
 
 const ChangeData = function(lines, absolute) {
-  var data = {};
+  var data = [];
   if (lines) {
     var totalChange = 0;
     var prevSpread = lines[0].spread;
@@ -33,7 +33,7 @@ const ChangeChart = function(props) {
       borderColor: RandomColor(),
       lineTension: 0,
       label: 'Net Change',
-      data: ChangeData(props.game.lines, false),
+      data: ChangeData(props.game.lines, false)
     }
     ]
   };
