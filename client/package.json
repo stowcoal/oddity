@@ -10,7 +10,7 @@
     "moment": "^2.19.1",
     "moment-timezone": "^0.5.13",
     "react": "^16.0.0",
-    "react-bootstrap": "^0.31.3",
+    "react-bootstrap": "^0.31.5",
     "react-chartjs-2": "^2.6.4",
     "react-document-title": "^2.0.3",
     "react-dom": "^16.0.0",
