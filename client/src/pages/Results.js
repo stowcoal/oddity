@@ -29,7 +29,7 @@ class Results extends Component {
   render() {
     return (
       <div className="container">
-        { this.state.games.length &&
+        { this.state.games.length ?
           <div>
             <h3>Spread Error Frequency</h3>
             <ErrorChart games={this.state.games}/>
@@ -48,6 +48,8 @@ class Results extends Component {
             <h3>Spreads</h3>
             <SpreadTotalChart games={this.state.games}/>
           </div>
+          :
+          <div></div>
         }
       </div>
     );

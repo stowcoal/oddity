@@ -24,7 +24,7 @@ class CompareGames extends Component {
   render () {
     return (
       <div className="container">
-        { this.state.games.length &&
+        { this.state.games.length ?
           (
             <div>
               <h1>Spreads this Week</h1>
@@ -35,6 +35,8 @@ class CompareGames extends Component {
               <SpreadChangeChart games={this.state.games}/>
             </div>
           )
+          :
+          <div></div>
         }
       </div>
     )
