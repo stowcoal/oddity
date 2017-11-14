@@ -8,6 +8,7 @@ class ListWeekGames extends Component {
     this.state = {
       games: []
     };
+    this.getTitle = this.getTitle.bind(this);
   }
   componentDidMount() {
     var url = (process.env.NODE_ENV === 'production' ? process.env.REACT_APP_ODDITY_API : '') + '/games/week';
@@ -19,10 +20,18 @@ class ListWeekGames extends Component {
       .then(res => res.json())
       .then(games => this.setState({games}));
   }
+  getTitle() {
+    if (this.props.match.params.week) {
+      return "Week " + this.props.match.params.week + " Games";
+    }
+    else {
+      return "Upcoming Games";
+    }
+  }
   render () {
     return (
     <div className="container">
-      <h1>Games by Week</h1>
+      <h1>{this.getTitle()}</h1>
       <div className="d-flex justify-content-end">
         <WeekPicker />
       </div>
