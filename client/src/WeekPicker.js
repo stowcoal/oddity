@@ -8,7 +8,7 @@ class WeekPicker extends Component {
     return (
       <div className="dropdown">
         <button className="btn btn-primary dropdown-toggle" href="#" data-toggle="dropdown">Select Week</button>
-        <div class="dropdown-menu">
+        <div className="dropdown-menu">
           <a className="dropdown-item" href="/week">Upcoming</a>
           {
             weeksArray.map((week, index) => (

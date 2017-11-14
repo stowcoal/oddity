@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import Games from './Games.js';
-import WeekPicker from './WeekPicker.js';
+import Games from '../Games.js';
+import WeekPicker from '../WeekPicker.js';
 
 class ListWeekGames extends Component {
   constructor(props){
@@ -18,7 +18,10 @@ class ListWeekGames extends Component {
 
     fetch(url)
       .then(res => res.json())
-      .then(games => this.setState({games}));
+      .then(games => this.setState({games}))
+      .catch(function () {
+        console.log("Request failed");
+      });
   }
   getTitle() {
     if (this.props.match.params.week) {

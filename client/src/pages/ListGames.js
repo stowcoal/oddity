@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Games from './Games.js';
+import Games from '../Games.js';
 
 class ListGames extends Component {
   constructor(props){
@@ -13,7 +13,10 @@ class ListGames extends Component {
 
     fetch(url)
       .then(res => res.json())
-      .then(games => this.setState({games}));
+      .then(games => this.setState({games}))
+      .catch(function () {
+        console.log("Request failed");
+      });
   }
   render () {
     return (

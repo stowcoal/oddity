@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import SpreadTimeChart from './charts/SpreadTimeChart.js';
-import GameTitle from './GameTitle.js';
-import ChangeChart from './charts/ChangeChart.js';
-import CoverString from './CoverString.js';
+import SpreadTimeChart from '../charts/SpreadTimeChart.js';
+import GameTitle from '../GameTitle.js';
+import ChangeChart from '../charts/ChangeChart.js';
+import CoverString from '../CoverString.js';
 import Moment from 'react-moment';
 import 'moment-timezone';
 
