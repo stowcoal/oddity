@@ -26,8 +26,12 @@ const SpreadScoreErrorChart = function(props) {
     ]
   };
 
+  const options = {
+    legend: { display: false },
+  }
+
   return <div>
-    <Pie data={data} />
+    <Pie data={data} options={options}/>
   </div>;
 }
 

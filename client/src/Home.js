@@ -2,10 +2,25 @@ import React from 'react';
 
 const Home = function() {
   return (
-    <div className="container">
-      <h1>Oddity</h1>
-      <h2>Hi Brad</h2>
-      <p>This is the homepage. Click somewhere else to see graphs</p>
+    <div className="container my-2">
+      <div className="jumbotron">
+        <h1 className="display-3">Oddity</h1>
+        <p className="lead">A fresh approach to spread betting analysis</p>
+      </div>
+      <div className="row">
+        <div className="col">
+          <h1>Feature 1</h1>
+          <p>It's awesome</p>
+        </div>
+        <div className="col">
+          <h1>Feature 2</h1>
+          <p>It's fast</p>
+        </div>
+        <div className="col">
+          <h1>Feature 1</h1>
+          <p>It's free</p>
+        </div>
+      </div>
     </div>
   )
 }

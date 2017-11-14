@@ -33,7 +33,7 @@ const ErrorChart = function(props) {
     labels: labels,
     datasets: [
       {
-        label: 'Spread/Score error',
+        legend: { display: false },
         data: labels.map(function(result){
           return results[result];
         }),
@@ -43,6 +43,7 @@ const ErrorChart = function(props) {
   };
 
   const options = {
+    legend: { display: false },
     scales: {
       yAxes: [{
         scaleLabel: {

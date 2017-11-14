@@ -5,6 +5,7 @@ import SpreadScoreChart from './charts/SpreadScoreChart.js';
 import SpreadErrorChart from './charts/SpreadErrorChart.js';
 import ErrorMarginChart from './charts/ErrorMarginChart.js';
 import SpreadErrorPercentChart from './charts/SpreadErrorPercentChart.js';
+import SpreadTotalChart from './charts/SpreadTotalChart';
 
 class Results extends Component {
   constructor(props) {
@@ -39,6 +40,8 @@ class Results extends Component {
         <ResultsChart games={this.state.games} absolute={false}/>
         <h3>Absolute Score Difference</h3>
         <ResultsChart games={this.state.games} absolute={true}/>
+        <h3>Spreads</h3>
+        <SpreadTotalChart games={this.state.games}/>
       </div>
     );
   }

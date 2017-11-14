@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import SpreadChart from './charts/SpreadChart.js';
+import SpreadTimeChart from './charts/SpreadTimeChart.js';
 import GameTitle from './GameTitle.js';
 import ChangeChart from './charts/ChangeChart.js';
 import CoverString from './CoverString.js';
@@ -25,7 +25,7 @@ class Games extends Component {
                 </div>
                 <div className='row'>
                   <div className='col-md-6'>
-                    <SpreadChart game={game} />
+                    <SpreadTimeChart game={game} />
                   </div>
                   <div className='col-md-6'>
                     <ChangeChart game={game} />

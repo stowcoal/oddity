@@ -2,7 +2,7 @@ import React from 'react';
 import {Line} from 'react-chartjs-2';
 import RandomColor from '../helpers/RandomColor.js';
 
-const SpreadChart = function(props) {
+const SpreadTimeChart = function(props) {
   var data = {};
   if (props.game.lines){
     data = {
@@ -44,4 +44,4 @@ const SpreadChart = function(props) {
   return <Line data={data} options={options} />;
 }
 
-export default SpreadChart;
+export default SpreadTimeChart;

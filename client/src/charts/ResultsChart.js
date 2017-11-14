@@ -41,6 +41,7 @@ function buildData(games, useAbsolute) {
 
 const ResultsChart = function(props) {
   const options = {
+    legend: { display: false },
     scales: {
       yAxes: [{
         scaleLabel: {
