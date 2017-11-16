@@ -22,7 +22,7 @@ class ListGames extends Component {
     return (
     <div className="container">
       <h1>All Games</h1>
-      <Games games={this.state.games.slice(0,10)} />
+      <Games games={this.state.games} />
     </div>
   );
   }

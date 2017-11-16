@@ -1,17 +1,32 @@
 import React, {Component} from 'react';
 import SpreadTimeChart from './charts/SpreadTimeChart.js';
 import GameTitle from './GameTitle.js';
+import GameFilter from './GameFilter';
 import ChangeChart from './charts/ChangeChart.js';
 import CoverString from './CoverString.js';
 import Moment from 'react-moment';
 import 'moment-timezone';
 
 class Games extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      games: props.games
+    }
+    this.updateGames = this.updateGames.bind(this);
+  }
+  componentWillReceiveProps (nextProps) {
+    this.setState({games: nextProps.games});
+  }
+  updateGames(games) {
+    this.setState({games: games});
+  }
   render() {
     return (
       <div>
+        <GameFilter games={this.props.games} update={this.updateGames}/>
         {
-          this.props.games && this.props.games.map(function(game) {
+          this.state.games.slice(0,10).map(function(game) {
             return (
               <div id={game._id} key={game._id}>
                 <h4>
@@ -32,9 +47,9 @@ class Games extends Component {
                   </div>
                 </div>
               </div>
-          );
-        })
-      }
+            );
+          })
+        }
       </div>
     )
   }

@@ -22,7 +22,7 @@ function buildData(games, useAbsolute) {
     datasets: [{
       label: '',
       data: labels.map(function(spread){
-        return results[spread];
+        return results[spread] || 0;
       }),
       backgroundColor: RandomColor(Object.keys(results).length)
     }]

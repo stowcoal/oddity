@@ -22,7 +22,7 @@ function buildData(games, useAbsolute) {
     var max = Object.keys(results).reduce(function(a,b){
       return Math.max(a,b);
     });
-    for(min; min < max-1; ++min){
+    for(min; min < max+1; ++min){
       labels.push(min);
     }
   }
@@ -32,7 +32,7 @@ function buildData(games, useAbsolute) {
     datasets: [{
       label: 'Score Differentials',
       data: labels.map(function(result){
-        return results[result];
+        return results[result] || 0;
       }),
       backgroundColor: RandomColor(labels.length)
     }]

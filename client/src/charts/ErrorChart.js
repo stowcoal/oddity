@@ -23,11 +23,10 @@ const ErrorChart = function(props) {
     var max = Object.keys(results).reduce(function(a,b){
       return Math.max(a,b);
     });
-    for(min; min < max-1; ++min){
+    for(min; min < max+1; ++min){
       labels.push(min);
     }
   }
-
 
   const data = {
     labels: labels,
@@ -35,7 +34,7 @@ const ErrorChart = function(props) {
       {
         legend: { display: false },
         data: labels.map(function(result){
-          return results[result];
+          return results[result] || 0;
         }),
         backgroundColor: RandomColor(labels.length)
       }

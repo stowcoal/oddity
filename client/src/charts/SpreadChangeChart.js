@@ -1,6 +1,5 @@
 import React from 'react';
 import {Scatter} from 'react-chartjs-2';
-import moment from 'moment-timezone';
 
 function buildData(results) {
   return {
