@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import SpreadTimeChart from './charts/SpreadTimeChart.js';
 import GameTitle from './GameTitle.js';
 import GameFilter from './GameFilter';
-import ChangeChart from './charts/ChangeChart.js';
+import OverunderTimeChart from './charts/OverunderTimeChart.js';
 import CoverString from './CoverString.js';
 import Moment from 'react-moment';
 import 'moment-timezone';
@@ -26,7 +26,7 @@ class Games extends Component {
       <div>
         <GameFilter games={this.props.games} update={this.updateGames}/>
         {
-          this.state.games.slice(0,10).map(function(game) {
+          this.state.games.slice(0,100).map(function(game) {
             return (
               <div id={game._id} key={game._id}>
                 <h4>
@@ -43,7 +43,7 @@ class Games extends Component {
                     <SpreadTimeChart game={game} />
                   </div>
                   <div className='col-md-6'>
-                    <ChangeChart game={game} />
+                    <OverunderTimeChart game={game} />
                   </div>
                 </div>
               </div>

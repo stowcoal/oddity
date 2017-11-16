@@ -16,11 +16,8 @@ function buildData(results) {
 const SpreadChangeChart = function(props) {
   var results = props.games.reduce(function(res, game){
     if (game.lines.length){
-      var change = 0;
-      for (var i = 1; i < game.lines.length; ++i) {
-        change += Math.abs(game.lines[i-1].spread - game.lines[i].spread);
-      }
       var spread = game.lines[game.lines.length-1].spread
+      var change = spread - game.lines[0].spread
       //res.push({x: diff, y: game.lines[game.lines.length-1].spread, game: game});
       res.push({x: spread, y: change, game: game});
     }

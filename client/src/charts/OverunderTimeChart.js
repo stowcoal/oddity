@@ -2,20 +2,24 @@ import React from 'react';
 import {Line} from 'react-chartjs-2';
 import RandomColor from '../helpers/RandomColor.js';
 
-const SpreadTimeChart = function(props) {
+const OverunderTimeChart = function(props) {
   var data = {};
   if (props.game.lines){
+    console.log(props.game.lines)
+    var overunders = props.game.lines.filter(function(line) {
+      return line.overunder > 0;
+    })
     data = {
       datasets: [
         {
           fill: false,
           borderColor: RandomColor(),
           lineTension: 0,
-          label: 'Spread',
-          data: props.game.lines.map(line => (
+          label: 'Overunder',
+          data: overunders.map(line => (
             {
               t: line.timestamp,
-              y: line.spread
+              y: line.overunder
             }
           ))
         }
@@ -50,4 +54,4 @@ const SpreadTimeChart = function(props) {
   return <Line data={data} options={options} />;
 }
 
-export default SpreadTimeChart;
+export default OverunderTimeChart;

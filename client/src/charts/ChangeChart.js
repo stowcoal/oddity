@@ -40,7 +40,7 @@ const ChangeChart = function(props) {
   var options = {
     layout: {
       padding: {
-        left: 20 // padding so the scalelable isn't cutoff
+        left: 30 // padding so the scalelable isn't cutoff
       }
     },
     scales: {

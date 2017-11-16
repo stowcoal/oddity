@@ -4,7 +4,7 @@ import Moment from 'moment';
 class WeekPicker extends Component {
   render() {
     var weeks = Moment().week() - 34;
-    var weeksArray = Array(weeks).fill().map((_, i) => i + 1);
+    var weeksArray = Array(weeks).fill().map((_, i) => i + 1).reverse();
     return (
       <div className="dropdown">
         <button className="btn btn-primary dropdown-toggle" href="#" data-toggle="dropdown">Select Week</button>
