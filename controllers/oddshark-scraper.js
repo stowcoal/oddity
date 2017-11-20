@@ -37,7 +37,19 @@ api.scrapeOdds = function() {
 
 api.backfillOdds = function() {
   return new Promise(function(resolve, reject) {
-    Game.find({start: {$exists: false}}).limit(100).exec(function(err, data){
+    Game.find({
+      $or: [
+        {
+          start: {
+            $exists: false
+          }
+        },
+        {
+          lines: []
+        }
+      ]
+    }
+  ).limit(1).exec(function(err, data){
       var games = data;
       Promise.all(games.map(function(game){
         return new Promise(function(resolve, reject) {
