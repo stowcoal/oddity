@@ -49,7 +49,7 @@ api.backfillOdds = function() {
         }
       ]
     }
-  ).limit(1).exec(function(err, data){
+  ).limit(100).exec(function(err, data){
       var games = data;
       Promise.all(games.map(function(game){
         return new Promise(function(resolve, reject) {
