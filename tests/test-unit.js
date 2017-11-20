@@ -33,11 +33,11 @@ describe('dom parser', function() {
       expect(game.result_link).to.equal('/ncaaf/toledo-ball-state-odds-october-26-2017-793208');
       expect(game.start.getTime()).to.equal(new Date('10/26/2017 6:00 PM CDT').getTime());
       var lines = [
-        { timestamp: new Date("2017-10-22T23:02:13.000"), spread: 21.5, overunder: 0 },
-        { timestamp: new Date("2017-10-22T23:09:30.000"), spread: 22.5, overunder: 0 },
-        { timestamp: new Date("2017-10-22T23:54:33.000"), spread: 23.5, overunder: 0 },
-        { timestamp: new Date("2017-10-23T00:24:46.000"), spread: 24.5, overunder: 0 },
-        { timestamp: new Date("2017-10-23T15:08:46.000"), spread: 25.5, overunder: 0 }
+        { timestamp: new Date("2017-10-22T23:02:13.000Z"), spread: 21.5, overunder: 0 },
+        { timestamp: new Date("2017-10-22T23:09:30.000Z"), spread: 22.5, overunder: 0 },
+        { timestamp: new Date("2017-10-22T23:54:33.000Z"), spread: 23.5, overunder: 0 },
+        { timestamp: new Date("2017-10-23T00:24:46.000Z"), spread: 24.5, overunder: 0 },
+        { timestamp: new Date("2017-10-23T15:08:46.000Z"), spread: 25.5, overunder: 0 }
       ];
       for (var index = 0; index < lines.length; ++index) {
         expect(game.lines[index].spread).to.equal(lines[index].spread);
@@ -56,14 +56,14 @@ describe('dom parser', function() {
       expect(game.away).to.equal('Michigan State Spartans');
       expect(game.start.getTime()).to.equal(new Date('10/28/2017 2:30 PM CDT').getTime());
       var lines = [
-        { timestamp: new Date("2017-10-22T23:02:15.000"), spread: 0, overunder: 0 },
-        { timestamp: new Date("2017-10-22T23:09:31.000"), spread: 1, overunder: 0 },
-        { timestamp: new Date("2017-10-22T23:54:36.000"), spread: 1.5, overunder: 0 },
-        { timestamp: new Date("2017-10-23T00:24:48.000"), spread: 2, overunder: 0 },
-        { timestamp: new Date("2017-10-23T19:23:39.000"), spread: 1, overunder: 0 },
-        { timestamp: new Date("2017-10-23T21:23:06.000"), spread: 1.5, overunder: 0 },
-        { timestamp: new Date("2017-10-24T21:34:51.000"), spread: 2, overunder: 0 },
-        { timestamp: new Date("2017-10-25T17:07:51.000"), spread: 2.5, overunder: 0 }
+        { timestamp: new Date("2017-10-22T23:02:15.000Z"), spread: 0, overunder: 0 },
+        { timestamp: new Date("2017-10-22T23:09:31.000Z"), spread: 1, overunder: 0 },
+        { timestamp: new Date("2017-10-22T23:54:36.000Z"), spread: 1.5, overunder: 0 },
+        { timestamp: new Date("2017-10-23T00:24:48.000Z"), spread: 2, overunder: 0 },
+        { timestamp: new Date("2017-10-23T19:23:39.000Z"), spread: 1, overunder: 0 },
+        { timestamp: new Date("2017-10-23T21:23:06.000Z"), spread: 1.5, overunder: 0 },
+        { timestamp: new Date("2017-10-24T21:34:51.000Z"), spread: 2, overunder: 0 },
+        { timestamp: new Date("2017-10-25T17:07:51.000Z"), spread: 2.5, overunder: 0 }
       ];
       for (var index = 0; index < lines.length; ++index) {
         expect(game.lines[index].spread).to.equal(lines[index].spread);
@@ -101,6 +101,13 @@ describe('dom parser', function() {
       done();
     });
   });
+  it('should return a valid date object', function(done) {
+    var start = scraper.parseStart('/ncaaf/louisiana-lafayette-arkansas-state-odds-october-26-2017-792923', 'Thu, October 26, 7:00 PM')
+    expect(start.getTime()).to.equal(new Date('2017-10-26 6:00 PM').getTime());
+    start = scraper.parseStart('/ncaaf/montana-state-idaho-odds-september-1-2016-729520', 'Thu, September 1, 9:00 PM')
+    expect(start.getTime()).to.equal(new Date('2016-09-01 8:00 PM').getTime());
+    done();
+  })
 });
 
 describe('games', function() {

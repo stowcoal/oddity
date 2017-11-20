@@ -161,11 +161,19 @@ api.parseGame = function(dom) {
   var game = {};
   var title = $('.page-title').text();
   game = api.parseTitle(title);
-  game.start = moment.tz($('.lh-event-date').text(), 'ddd, MMMM DD, h:mm A', 'America/New_York').toDate();
   game.result_link = $('.lh-matchup-link .full-matchup').attr('href');
+  game.start = api.parseStart($('.lh-matchup-link .full-matchup').attr('href'), $('.lh-event-date').text());
   game.lines = [];
-  var length = $('.base-table').has('a:contains("Wynn")').find('tbody > tr').length;
-  $('.base-table').has('a:contains("Wynn")').find('tbody > tr').each(function(i, elem) {
+  var book;
+  if ($('.base-table').has('a:contains("Wynn")').length) {
+    book = "Wynn";
+  } else if ($('.base-table').has('a:contains("BOVADA.LV")').length) {
+    book = "BOVADA.LV";
+  }
+  else {
+    book = "5Dimes";
+  }
+  $('.base-table').has('a:contains("' + book + '")').find('tbody > tr').each(function(i, elem) {
     var line = {};
     line.timestamp = moment($(this).find('td').eq(0).text(), 'M/D/YY h:mm:ss A').toDate();
     if (line.timestamp.getFullYear() < (new Date(Date.now()).getFullYear() - 1))
@@ -175,15 +183,16 @@ api.parseGame = function(dom) {
     line.spread = Number(spreadString);
     line.overunder = Number($(this).find('td > .left').eq(1).text());
     game.lines.push(line);
-    if (i === length - 1 && length === 1) {
-      var current = {};
-      current.timestamp = new Date(Date.now());
-      current.spread = line.spread;
-      current.overunder = line.overunder;
-      game.lines.push(current);
-    }
   });
   return game;
+};
+
+api.parseStart = function(matchup, string) {
+  var matchupArray = matchup.split('-');
+  var dateString = matchupArray[matchupArray.length-4] + ' ' + matchupArray[matchupArray.length-3] + ' ' + matchupArray[matchupArray.length-2];
+  var timeString = string.split(', ').splice(-1, 1);
+  var date = moment.tz(dateString + ' ' + timeString, 'MMMM DD YYYY h:mm A', 'America/New_York');
+  return date.toDate();
 };
 
 api.parseTitle = function(str) {
