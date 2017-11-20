@@ -37,26 +37,29 @@ api.scrapeOdds = function() {
 
 api.backfillOdds = function() {
   return new Promise(function(resolve, reject) {
-    gameController.getGamesByWeek(10, function(err, data){
+    Game.find({start: {$exists: false}}).limit(100).exec(function(err, data){
       var games = data;
       Promise.all(games.map(function(game){
         return new Promise(function(resolve, reject) {
-          console.log('requesting: ' + game._id);
           request('http://www.oddsshark.com/ncaaf/odds/line-history/' + game._id, function(err, res, body) {
             var parsedGame = api.parseGame(body);
-            game.lines = parsedGame.lines;
-            game.start = parsedGame.start;
-            game.updated = new Date(Date.now());
-            console.log('upserting: ' + game._id);
-            gameController.upsertGame(game, function(err, game) {
+            if (parsedGame) {
+              game.lines = parsedGame.lines;
+              game.start = parsedGame.start;
+              game.updated = new Date(Date.now());
+              console.log('upserting: ' + game._id);
+              gameController.upsertGame(game, function(err, game) {
+                resolve(game);
+              });
+            }
+            else {
               resolve(game);
-            });
+            }
           });
         });
       })).then(function(results) {
         resolve(games);
       });
-
     });
   });
 };
@@ -127,16 +130,19 @@ api.parseScores = function(dom) {
   var $ = cheerio.load(dom);
   var games = [];
   $('.matchup-container').each(function(i, elem) {
-    var game = {};
-    game.home = $(this).find('.home .city').text() + ' ' + $(this).find('.home .nick-name').text();
-    game.away = $(this).find('.away .city').text() + ' ' + $(this).find('.away .nick-name').text();
-    game.result_link = $(this).find('.base-versus').attr('href');
-    game.score = {
-      home: Number($(this).find('.box-score .home .total-score').text()),
-      away: Number($(this).find('.box-score .away .total-score').text())
-    };
-    game._id = $(this).find('.base-versus').attr('href').split('-').slice(-1).pop();
-    games.push(game);
+    if (!$(this).find('.base-versus').hasClass('base-versus-disabled'))
+    {
+      var game = {};
+      game.home = $(this).find('.home .city').text() + ' ' + $(this).find('.home .nick-name').text();
+      game.away = $(this).find('.away .city').text() + ' ' + $(this).find('.away .nick-name').text();
+      game.result_link = $(this).find('.base-versus').attr('href');
+      game.score = {
+        home: Number($(this).find('.box-score .home .total-score').text()),
+        away: Number($(this).find('.box-score .away .total-score').text())
+      };
+      game._id = $(this).find('.base-versus').attr('href').split('-').slice(-1).pop();
+      games.push(game);
+    }
   });
   return games;
 };
