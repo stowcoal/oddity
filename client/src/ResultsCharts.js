@@ -6,6 +6,7 @@ import SpreadErrorChart from './charts/SpreadErrorChart.js';
 import ErrorMarginChart from './charts/ErrorMarginChart.js';
 import SpreadErrorPercentChart from './charts/SpreadErrorPercentChart.js';
 import SpreadTotalChart from './charts/SpreadTotalChart';
+import CategoryCoverChart from './charts/CategoryCoverChart';
 import GameFilter from './GameFilter';
 
 class ResultsCharts extends Component {
@@ -32,6 +33,7 @@ class ResultsCharts extends Component {
         { this.state.games && this.state.games.length > 0 &&
           (
             <div>
+              <CategoryCoverChart games={this.state.games}/>
               <h3>Spread Error Frequency</h3>
               <ErrorChart games={this.state.games}/>
               <h3>Spread Error within Margin of 7 points</h3>

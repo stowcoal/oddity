@@ -4,7 +4,7 @@ import {Line} from 'react-chartjs-2';
 const SpreadPercentChart = function(props) {
   var results = props.games.reduce(function(res, game){
     if (game.score && game.lines.length){
-      var margin = 3;
+      var margin = .5;
       var spread = game.lines[game.lines.length-1].spread;
       var group = margin > .5 ? (Math.floor(spread / margin) * margin) : spread;
       var diff = game.score.away - game.score.home;
@@ -26,7 +26,7 @@ const SpreadPercentChart = function(props) {
       borderColor: 'Green',
       fill: false,
       data: Object.keys(results).sort((a, b) => (a-b)).map(function(key) {
-        return results[key].home / (results[key].away + results[key].home);
+        return (results[key].home > 0 && results[key].away > 0) ? (results[key].home / (results[key].away + results[key].home)) : .5;
       })
     }],
     labels: Object.keys(results).sort((a, b) => (a-b))

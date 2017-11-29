@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import moment from 'moment-timezone';
 
 class GameFilter extends Component {
   constructor(props) {
@@ -20,8 +21,9 @@ class GameFilter extends Component {
     var spread = game.lines[game.lines.length-1].spread;
     var diff = game.score && (game.score.away - game.score.home);
     return (!this.state.team || game.home.includes(this.state.team) || game.away.includes(this.state.team)) &&
-          (!this.state.spread || spread == this.state.spread) &&
-          (!this.state.scoreDifference || (diff == this.state.scoreDifference));
+          (!this.state.spread || spread === Number(this.state.spread)) &&
+          (!this.state.scoreDifference || (diff === Number(this.state.scoreDifference))) &&
+          (!this.state.season || (moment(game.start).isBetween('02/01/' + this.state.season, '02/01/' + (Number(this.state.season) + 1))));
   }
 
   render() {
@@ -44,6 +46,14 @@ class GameFilter extends Component {
               <div className="col">
                 <label>Score</label>
                 <input className="form-control" value={this.props.scoreDifference} name="scoreDifference" type="number" onChange={this.handleChange} />
+              </div>
+              <div className="col">
+                <label>Season</label>
+                <select className="form-control" id="exampleFormControlSelect1">
+                  <option>Select a Year</option>
+                  <option>2017</option>
+                  <option>2016</option>
+                </select>
               </div>
             </form>
           </div>
